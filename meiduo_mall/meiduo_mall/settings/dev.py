@@ -15,10 +15,10 @@ import os, sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(BASE_DIR)
+# print(BASE_DIR)
 
 # 查看导包路径(列表)
-print(sys.path)
+# print(sys.path)
 
 # 追加导包路径(在列表中追加,insert在指定位置追加)
 # sys.path.insert(0, '/Users/Python/Desktop')  # 非动态获取
@@ -33,7 +33,7 @@ SECRET_KEY = 'wk!3pa-nzog$(ee$1$^bmm++zt9dwv-7+o7s4pku8y!ddj%p3w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.meiduo.site', '127.0.0.1']
 
 
 # Application definition
@@ -48,7 +48,10 @@ INSTALLED_APPS = [
 
     # 'meiduo_mall.apps.users',  # 用户模块
     'users',  # 用户模块应用
-    'contents', # 首页广告
+    'contents',  # 首页广告
+    'verifications',  # 验证模块
+    'oauth',  # 第三方登录
+    'areas',  # 省市区三级联动
 ]
 
 MIDDLEWARE = [
@@ -112,6 +115,13 @@ CACHES = {
     "session": { # session
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "verify_code": { # 验证码
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -207,3 +217,23 @@ LOGGING = {
 
 # 指定本项目自定义的用户模型类
 AUTH_USER_MODEL = 'users.User'
+
+# 判断用户是否登录后,指定未登录用户重定向的地址
+LOGIN_URL = '/login/'
+
+# QQ登录的配置参数
+QQ_CLIENT_ID = '101518219'
+QQ_CLIENT_SECRET = '418d84ebdc7241efb79536886ae95224'
+QQ_REDIRECT_URI = 'http://www.meiduo.site:8000/oauth_callback'
+
+# 邮件参数
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # 指定邮件后端
+EMAIL_HOST = 'smtp.163.com' # 发邮件主机
+EMAIL_PORT = 25 # 发邮件端口
+EMAIL_HOST_USER = 'hmmeiduo@163.com' # 授权的邮箱
+EMAIL_HOST_PASSWORD = 'hmmeiduo123' # 邮箱授权时获得的密码，非注册登录密码
+EMAIL_FROM = '美多商城<hmmeiduo@163.com>' # 发件人抬头(要和发送邮件的邮箱一致)
+
+# 邮箱验证链接
+EMAIL_VERIFY_URL = 'http://www.meiduo.site:8000/emails/verification/'
+
