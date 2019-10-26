@@ -20,6 +20,25 @@ from . import constants
 logger = logging.getLogger('django')
 
 
+
+class UserBrowseHistory(LoginRequiredJSONMixin, View):
+    """用户浏览记录"""
+
+    def post(self, request):
+        """保存用户商品浏览记录"""
+        # 接收参数
+        # request.body得到bytes(字节)类型的请求体中的内容,decode变为字符串类型的json数据
+        json_str = request.body.decode()
+
+
+        # 校验参数
+        # 保存sku_id到redis
+        # 先去重
+        # 再保存:最近浏览的商品在最前面
+
+
+
+
 class UpdateTitleAddressView(LoginRequiredJSONMixin, View):
     """更新地址标题"""
 

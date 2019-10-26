@@ -19,6 +19,9 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
+    # haystack
+    url(r'^search/', include('haystack.urls')),
+
     # users
     url(r'^', include('users.urls', namespace='users')),
     # contents
@@ -28,6 +31,10 @@ urlpatterns = [
     # oauth
     url(r'^', include('oauth.urls')),
     # areas
-    url(r'^', include('areas.urls'))
+    url(r'^', include('areas.urls')),
+    # goods
+    url(r'^', include('goods.urls', namespace='goods')),
+    # carts
+    url(r'^', include('carts.urls', namespace='carts')),
 
 ]
